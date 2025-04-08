@@ -1,0 +1,51 @@
+#configure_preview table, #morphmodel table {
+	border-collapse: separate;
+	border-spacing: 0.2em;
+	margin: auto;
+
+}
+
+#morphmodel {
+	text-align: center;
+}
+
+#configure_preview table tbody tr td, #morphmodel table tbody tr td {
+	padding: 0.5em 1em;
+	user-select: none;
+	text-align: left;
+	border: 2px solid white;
+	border-radius: 0.25em;
+	display: table-cell;
+	color: black;
+}
+
+#configure_preview table tbody tr td.non-empty, #morphmodel table tbody tr td.non-empty {
+	cursor: pointer;
+}
+
+html.shiny-busy .create-model, html.shiny-busy .create-morphospace {
+	opacity: 0.5;
+}
+
+h2 {
+	text-align: center;
+}
+
+.center {
+	text-align: center;
+}
+
+#import_results {
+	text-align: center;
+}
+#morphmodel table tbody tr td.selected {
+	border: 2px solid #fd266d;
+}
+
+.visualize-mlmorph .shiny-input-container {
+	text-align: center;
+}
+
+.mlmorph_size {
+	text-align: center;
+}

@@ -1,0 +1,15 @@
+usethis::use_package("shiny", min_version = TRUE)
+usethis::use_package("openxlsx", min_version = TRUE)
+usethis::use_package("jsonlite", min_version = TRUE)
+usethis::use_package("magrittr", min_version = TRUE)
+usethis::use_package("utils", min_version = TRUE)
+usethis::use_package("randomForest", min_version = TRUE)
+usethis::use_package("caret", min_version = TRUE)
+
+usethis::use_pipe(FALSE)
+
+usethis::use_r("load_data")
+usethis::use_r("factorize_data")
+usethis::use_r("create_model")
+usethis::use_r("morphospace_creation")
+
