@@ -5,7 +5,7 @@
 \alias{MLmorph-package}
 \title{MLmorph: Integrating Morphological Modeling and Machine Learning for Decision Support}
 \description{
-MLmorph integrates morphological modeling with machine learning to support structured decision-making (e.g., in management and consulting). The package enumerates a morphospace of feasible configurations and uses random forests to estimate class probabilities over that space, bridging deductive model exploration with empirical validation. It includes utilities for factorizing inputs, model training, morphospace construction, and an interactive Shiny app for scenario exploration.
+Integrating morphological modeling with machine learning to support structured decision-making (e.g., in management and consulting). The package enumerates a morphospace of feasible configurations and uses random forests to estimate class probabilities over that space, bridging deductive model exploration with empirical validation. It includes utilities for factorizing inputs, model training, morphospace construction, and an interactive Shiny app for scenario exploration.
 }
 \seealso{
 Useful links:
