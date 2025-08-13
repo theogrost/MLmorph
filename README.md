@@ -107,7 +107,7 @@ If you use MLmorph in research or consulting reports, please cite the package an
 
 ## License
 
-MIT © Oskar Kosch. See `LICENSE` for details.
+MIT © Oskar Kosch. See `LICENSE.md` for details.
 
 ## Issues
 
