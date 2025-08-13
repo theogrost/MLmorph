@@ -67,7 +67,7 @@ render_factorization_controls <- function(data_frame) {
                         width = 6,
                         textInput(
                             inputId = paste0("custom_breaks_", i),
-                            label = "Breaks (comma-separated)",
+                            label = "Breaks (semicolon-separated)",
                             value = "",
                             width = "100%"
                         )
@@ -76,7 +76,7 @@ render_factorization_controls <- function(data_frame) {
                         width = 6,
                         textInput(
                             inputId = paste0("custom_labels_", i),
-                            label = "Labels (comma-separated, optional)",
+                            label = "Labels (semicolon-separated, optional)",
                             value = "",
                             width = "100%"
                         )
@@ -423,9 +423,9 @@ server <- function(input, output) {
                                    ),
                                    "custom_breaks" = {
                                        brk <- as.numeric(strsplit(
-                                           input[[paste0("custom_breaks_", i)]], ",")[[1]])
+                                           input[[paste0("custom_breaks_", i)]], ";")[[1]])
                                        lbl_raw <- input[[paste0("custom_labels_", i)]]
-                                       lbl <- if (nzchar(lbl_raw)) strsplit(lbl_raw, ",")[[1]] else NULL
+                                       lbl <- if (nzchar(lbl_raw)) strsplit(lbl_raw, ";")[[1]] else NULL
                                        factorize_numeric_vector(
                                            col,
                                            method = "custom_breaks",
