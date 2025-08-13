@@ -13,6 +13,8 @@ Description: MLmorph integrates morphological modeling with machine learning to
     inputs, model training, morphospace construction, and an interactive Shiny app 
     for scenario exploration.
 License: MIT + file LICENSE
+URL: https://github.com/theogrost/MLmorph
+BugReports: https://github.com/theogrost/MLmorph/issues
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -24,9 +26,10 @@ Imports:
     openxlsx (>= 4.2.5.2),
     randomForest (>= 4.7.1.1),
     shiny (>= 1.10.0),
+    tidyr (>= 1.3.1)
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Language: en
-

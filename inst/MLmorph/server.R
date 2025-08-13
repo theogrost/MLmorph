@@ -8,6 +8,7 @@ library(plotly)
 library(reactable)
 library(ggplot2)
 library(MLmorph)
+library(magrittr)
 
 # --- Global Reactive-Like Storage ---
 imported_data <- NULL
