@@ -2,7 +2,7 @@
 % Please edit documentation in R/factorize_data.R
 \name{factorize_numeric_vector}
 \alias{factorize_numeric_vector}
-\title{Turn numeric vector into ordered factor}
+\title{Turn numeric vector into an ordered factor}
 \usage{
 factorize_numeric_vector(
   data_vector,
@@ -13,22 +13,22 @@ factorize_numeric_vector(
 )
 }
 \arguments{
-\item{data_vector}{Vector with numeric data.}
+\item{data_vector}{Numeric vector.}
 
-\item{method}{Method to create breaks, "equal_bins" by default.}
+\item{method}{Factorization rule: one of \code{"equal_bins"}, \code{"equal_distance"}, \code{"custom_breaks"}.}
 
-\item{breaks_no}{Number of breaks to create, 5L by default.}
+\item{breaks_no}{Integer \eqn{\ge 2}; number of intervals when \code{method != "custom_breaks"}.}
 
-\item{custom_breaks}{Custom breaks to supply, as a named numeric vector.}
+\item{custom_breaks}{Optional numeric vector of cut points (strictly increasing) used when \code{method = "custom_breaks"}.}
 
-\item{custom_labels}{Custom labels to supply, as a named numeric vector.}
+\item{custom_labels}{Optional character vector of labels. If supplied, its length should equal \code{length(custom_breaks) - 1}.}
 }
 \value{
-Factorized vector
+An ordered factor with interval labels.
 }
 \description{
-Turn numeric vector into ordered factor
+Turn numeric vector into an ordered factor
 }
 \examples{
-factorize_numeric_vector(runif(50))
+factorize_numeric_vector(runif(10))
 }

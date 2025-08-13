@@ -17,10 +17,18 @@ ui <- fluidPage(
 		includeCSS("www/main.css"),
 		theme = theme,
 		title = "MLmorph",
+		header = div(
+		    class = "center",
+		    tags$img(
+		        src = "logo.svg",
+		        width = 300,
+		        class = "center"
+		    )
+		    ),
 		tabPanel(
-		    "> Load data", class = "load-data",
+		    "> Load data / model", class = "load-data",
 			bslib::layout_columns(
-				h2("Data loading tab"),
+				h2("Load data / model"),
 				fileInput("file_import",
 	                "Import file (xlsx / json / csv)",
 	                accept = c(".xlsx", ".json", ".csv"),
@@ -38,44 +46,36 @@ ui <- fluidPage(
 				col_widths = bslib::breakpoints(
     				sm = c(12),
     				md = c(12, -2, 3, 2, 3, -2, 12)
-    				# xl = c(12)
 				)
 			)
 		),
 		tabPanel(
 		    "> Configure data", class = "configure-data",
             layout_columns(
-                h2("Data configuring tab"),
+                h2("Configure data"),
                 uiOutput("factorization_controls"),
                 actionButton("apply_factorization", "Apply factorization"),
                 downloadButton("download_factorized", "Download factorized"),
                 uiOutput("configure_preview"),
                 col_widths = breakpoints(
                     sm = c(12),
-                    md = c(12, -4, 4, -4, -4, 2, 2, -4, 12)
-                    # xl = c(12)
+                    md = c(12, -2, 8, -2, -2, 4, 4, -2, 12),
+                    xxl = c(12, -4, 4, -4, -4, 2, 2, -4, 12)
                 )
             )
 		),
 		tabPanel(
 		    "> Create ML model", class = "create-model",
             layout_columns(
-                h2("Create the model"),
-                selectizeInput(
-                    inputId = "model_type",
-                    label = "Select model type",
-                    choices = c("Random Forest", "Neural Network"),
-                    selected = "Random Forest",
-                    multiple = FALSE
-                ),
+                h2("Create ML model"),
                 uiOutput("rf_controls"),
                 uiOutput("mlmorph_size"),
                 verbatimTextOutput("model_config"),
                 uiOutput("model_outputs"),
                 col_widths = breakpoints(
-                    sm = c(12, 6, 6, 12, 12),
-                    md = c(12, -3, 3, 3, -3, 12, 12)
-                    # xl = c(12)
+                    sm = c(12),
+                    md = c(12, -2, 8, -2, -2, 8, -2, 12),
+                    xxl = c(12, -4, 4, -4, -4, 4, -4, 12)
                 )
             )
 		),
@@ -87,8 +87,8 @@ ui <- fluidPage(
                 uiOutput("morphospace_outputs"),
                 col_widths = breakpoints(
                     sm = c(12),
-                    md = c(12),
-                    xl = c(12)
+                    md = c(12, -2, 8, -2, 12),
+                    xxl = c(12, -4, 4, -4, 12)
                 )
             )
 		),
@@ -101,21 +101,19 @@ ui <- fluidPage(
                               value = FALSE),
                 uiOutput("morphmodel"),
                 col_widths = breakpoints(
-                    sm = c(12),
-                    md = c(12),
-                    xl = c(12)
+                    sm = c(12)
                 )
             )
 		),
 		tabPanel(
 		    "> Export MLmorph model", class = "export-mlmorph",
             layout_columns(
-                h2("Export model"),
+                h2("Export MLmorph model"),
                 downloadButton("download_model"),
                 col_widths = breakpoints(
                     sm = c(12),
-                    md = c(12),
-                    xl = c(12)
+                    md = c(12, -2, 8, -2),
+                    xxl = c(12, -4, 4, -4)
                 )
             )
 		)

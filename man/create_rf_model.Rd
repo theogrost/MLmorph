@@ -2,35 +2,49 @@
 % Please edit documentation in R/create_model.R
 \name{create_rf_model}
 \alias{create_rf_model}
-\title{Create random forests model}
+\title{Create a random forest classification model}
 \usage{
 create_rf_model(
   data,
   dependent = colnames(data)[ncol(data)],
   independent = setdiff(colnames(data), dependent),
   train_validate_split = 0.8,
+  shiny = FALSE,
   ...
 )
 }
 \arguments{
-\item{data}{The data.frame with data used for the model estimation}
+\item{data}{A \code{data.frame} containing predictors and the outcome.}
 
-\item{dependent}{Predictor variables names}
+\item{dependent}{Character scalar; the name of the outcome (must be a factor for classification).
+Defaults to the last column of \code{data}.}
 
-\item{independent}{The predicted variable name}
+\item{independent}{Character vector; names of predictor variables.
+Defaults to all columns except \code{dependent}.}
 
-\item{train_validate_split}{The proportion of data used for training, vs validation}
+\item{train_validate_split}{Numeric in (0, 1); proportion of rows used for training. Default is \code{0.8}.}
 
-\item{...}{Other arguments passed to the randomForest::randomForest() function}
+\item{shiny}{Logical; if \code{TRUE}, trains incrementally and reports progress via \pkg{shiny}. Default \code{FALSE}.}
+
+\item{...}{Additional arguments passed to \code{randomForest::randomForest()} (e.g., \code{ntree}).}
 }
 \value{
-Named list, with: model, variables_importance, model_performance_on_test
+A named list with components:
+\itemize{
+  \item \code{model}: a \code{randomForest} object.
+  \item \code{variables_importance}: matrix from \code{randomForest::importance()}.
+  \item \code{model_performance_on_test}: a \code{caret::confusionMatrix} object on the validation set.
+}
 }
 \description{
-Create random forests model
+Create a random forest classification model
 }
 \examples{
-create_rf_model(data.frame(a = factorize_numeric_vector(runif(100, 10, 20), breaks_no = 3),
-b = factorize_numeric_vector(runif(100, 1, 2), breaks_no = 5),
-c = factorize_numeric_vector(runif(100, 4, 5), breaks_no = 2)))
+n <- 60
+y  <- factor(sample(letters[1:3], n, TRUE))
+x1 <- factorize_numeric_vector(runif(n, 10, 20), breaks_no = 3)
+x2 <- factorize_numeric_vector(runif(n,  1,  2), breaks_no = 5)
+df <- data.frame(y, x1, x2)
+fit <- create_rf_model(df, dependent = "y", ntree = 50)
+names(fit)
 }

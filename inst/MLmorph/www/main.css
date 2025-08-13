@@ -49,3 +49,11 @@ h2 {
 .mlmorph_size {
 	text-align: center;
 }
+
+.navbar-header {
+	display: none;
+}
+
+.navbar {
+	background: none !important;
+}

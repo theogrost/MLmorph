@@ -26,35 +26,60 @@ render_factorization_controls <- function(data_frame) {
         datatype <- class(data_frame[[colname]])[1]
 
         tagList(
-            tags$h4(sprintf("%s (%s)", colname, datatype)),
-            selectInput(
-                inputId = paste0("fact_method_", i),
-                label = "Factorization method",
-                choices = c(
-                    "nicely", "numeric_bins", "numeric_distance",
-                    "custom_breaks", "binary", "character", "identity", "drop"
+            fluidRow(
+                column(
+                    width = 6,
+                    tags$h4(sprintf("%s (%s)", colname, datatype))
                 ),
-                selected = "nicely"
+                column(
+                    width = 6,
+                    selectInput(
+                        inputId = paste0("fact_method_", i),
+                        label = "Factorization method",
+                        choices = c(
+                            "nicely", "numeric_bins", "numeric_distance",
+                            "custom_breaks", "binary", "character", "identity", "drop"
+                        ),
+                        selected = "nicely",
+                        width = "100%"
+                    )
+                )
             ),
             conditionalPanel(
                 condition = sprintf("input.fact_method_%s == 'numeric_bins' || input.fact_method_%s == 'numeric_distance'", i, i),
-                sliderInput(
-                    inputId = paste0("breaks_no_", i),
-                    label = "Number of breaks",
-                    min = 2, max = 10, value = 5, step = 1
+                fluidRow(
+                    column(
+                        width = 12,
+                        sliderInput(
+                            inputId = paste0("breaks_no_", i),
+                            label = "Number of breaks",
+                            min = 2, max = 10, value = 5, step = 1,
+                            width = "100%"
+                        )
+                    )
                 )
             ),
             conditionalPanel(
                 condition = sprintf("input.fact_method_%s == 'custom_breaks'", i),
-                textInput(
-                    inputId = paste0("custom_breaks_", i),
-                    label = "Custom breaks (comma-separated)",
-                    value = ""
-                ),
-                textInput(
-                    inputId = paste0("custom_labels_", i),
-                    label = "Custom labels (comma-separated, optional)",
-                    value = ""
+                fluidRow(
+                    column(
+                        width = 6,
+                        textInput(
+                            inputId = paste0("custom_breaks_", i),
+                            label = "Breaks (comma-separated)",
+                            value = "",
+                            width = "100%"
+                        )
+                    ),
+                    column(
+                        width = 6,
+                        textInput(
+                            inputId = paste0("custom_labels_", i),
+                            label = "Labels (comma-separated, optional)",
+                            value = "",
+                            width = "100%"
+                        )
+                    )
                 )
             )
         )
@@ -65,8 +90,11 @@ render_factorization_controls <- function(data_frame) {
 make_color <- function(x,
                        min_val = min(full_morphospace$morphospace$calculated),
                        max_val = max(full_morphospace$morphospace$calculated)) {
+    if(is.na(x)) {
+        return("gray50")
+    }
     scaled <- pmin(pmax((x - min_val) / (max_val - min_val), 0), 1)
-    rgb(colorRamp(c("#FFFFFF", "#f89b29"))(scaled), maxColorValue = 255)
+    rgb(colorRamp(c("#42B4EB", "#FFFFFF", "#f89b29"))(scaled), maxColorValue = 255) # #FFFFFF
 }
 
 make_html_table_from_list <- function(vec_list) {
@@ -102,7 +130,7 @@ make_morphmodel <- function() {
             if (is.na(val)) return(tags$td(""))
             matches <- restricted_morphospace$calculated[df[[j]] == val]
             color <- make_color(if(length(matches) > 0)
-                max(matches, na.rm = TRUE) else 0)
+                max(matches, na.rm = TRUE) else NA)
             td <- tags$td(val)
             td$attribs$style <- sprintf(
                 "background-color: %s;", color)
@@ -119,7 +147,7 @@ make_morphmodel <- function() {
         tags$tbody(rows)
     )
     info <- tags$p(sprintf(
-        "Max probability: %.2f%%",
+        "Max belief: %.2f%%",
         max(restricted_morphospace$calculated) * 100))
     tagList(tbl, info)
 }
@@ -145,6 +173,11 @@ update_morphospace <- function() {
 
 # --- Server ---
 server <- function(input, output) {
+    shinyjs::disable(selector = 'a[data-value="> Configure data"]')
+    shinyjs::disable(selector = 'a[data-value="> Create ML model"]')
+    shinyjs::disable(selector = 'a[data-value="> Create morphospace"]')
+    shinyjs::disable(selector = 'a[data-value="> Visualize MLmorph model"]')
+    shinyjs::disable(selector = 'a[data-value="> Export MLmorph model"]')
     observeEvent(input$file_import, {
         req(input$file_import)
         imported_data <<- MLmorph::load_data(input$file_import$datapath)
@@ -157,6 +190,7 @@ server <- function(input, output) {
         output$factorization_controls <- renderUI({
             render_factorization_controls(imported_data)
         })
+        shinyjs::enable(selector = 'a[data-value="> Configure data"]')
     })
 
     observeEvent(input$generate_preview, {
@@ -169,19 +203,33 @@ server <- function(input, output) {
         output$rf_controls <- renderUI({
             last_col <- tail(names(factorized_data), 1)
             other_cols <- setdiff(names(factorized_data), last_col)
-            if (input$model_type == "Random Forest") {
+            model_type <- "Random Forest" # input$model_type
+            if (model_type == "Random Forest") {
                 tagList(
-                    selectizeInput(
-                        "dep_var", "Select dependent variable",
-                        choices = names(factorized_data), selected = last_col),
-                    selectizeInput(
-                        "indep_vars", "Select independent variables",
-                        choices = other_cols, selected = other_cols, multiple = TRUE),
-                    sliderInput("split", "Train/Validation split",
-                                min = 0.5, max = 0.95, value = 0.8, step = 0.01),
-                    sliderInput("ntree", "Number of trees",
-                                min = 10, max = 500, value = 10, step = 10),
-                    actionButton("create_model", "Create Model")
+                    fluidRow(
+                        column(
+                            width = 6,
+                            selectizeInput(
+                                "dep_var", "Select dependent variable",
+                                choices = names(factorized_data), selected = last_col,
+                                width = "100%"),
+                            sliderInput("split", "Train/Validation split",
+                                        min = 0.5, max = 0.95, value = 0.8, step = 0.01,
+                                        width = "100%"),
+                            sliderInput("ntree", "Number of trees",
+                                        min = 10, max = 500, value = 10, step = 10,
+                                        width = "100%"),
+                            actionButton("create_model", "Create Model",
+                                         width = "100%")
+                        ),
+                        column(
+                            width = 6,
+                            selectizeInput(
+                                "indep_vars", "Select independent variables",
+                                choices = other_cols, selected = other_cols, multiple = TRUE,
+                                width = "100%"),
+                        )
+                    )
                 )
             } else {
                 tags$div(
@@ -213,7 +261,8 @@ server <- function(input, output) {
             dependent = input$dep_var,
             independent = input$indep_vars,
             train_validate_split = input$split,
-            ntree = input$ntree
+            ntree = input$ntree,
+            shiny = TRUE
         )
 
         output$model_outputs <- renderUI({
@@ -221,16 +270,16 @@ server <- function(input, output) {
             tagList(
                 tags$h3("Variable importance (on train data)"),
                 reactableOutput("var_imp_table"),
-                tags$h3("Model performance (on test data)"),
+                tags$h3("Model performance (on validation data)"),
                 tags$strong("Model accuracy"),
                 tags$p(sprintf(
-                    "The model accuracy on test data is %0.2f%% versus %0.02f%% no information rate (p-value approx. %0.4f).",
+                    "The model accuracy on validation data is %0.2f%% versus %0.02f%% no information rate (p-value approx. %0.4f).",
                     acc["Accuracy"]*100,
                     acc["AccuracyNull"]*100,
                     acc["AccuracyPValue"])),
                 tags$strong("Confusion table"),
                 plotlyOutput("conf_matrix_plot"),
-                tags$h3("Model calibration (on train data)"),
+                tags$h3("Model calibration (on validation data)"),
                 tags$strong("Out-of-bag error vs number of trees (on train data)"),
                 plotlyOutput("error_plot")
             )
@@ -265,12 +314,13 @@ server <- function(input, output) {
                     xaxis = list(title = "Number of Trees"),
                     yaxis = list(title = "OOB Error Rate"))
         })
+        shinyjs::enable(selector = 'a[data-value="> Create morphospace"]')
     })
 
     observeEvent(input$create_morphospace, {
         restrictions <<- list(exclude_simulated = FALSE)
         full_morphospace <<- MLmorph::create_morphospace(
-            factorized_data, rf_model$model)
+            factorized_data, rf_model$model, shiny = TRUE)
         sim_ratio <- mean(full_morphospace$purely_simulated)
         output$morphospace_outputs <- renderUI({
             tagList(
@@ -292,6 +342,8 @@ server <- function(input, output) {
         })
         update_morphospace()
         output$morphmodel <- renderUI(make_morphmodel())
+        shinyjs::enable(selector = 'a[data-value="> Visualize MLmorph model"]')
+        shinyjs::enable(selector = 'a[data-value="> Export MLmorph model"]')
     })
 
     output$download_model <- downloadHandler(
@@ -320,6 +372,7 @@ server <- function(input, output) {
             nrow(full_morphospace$morphospace))))
         update_morphospace()
         output$morphmodel <- renderUI(make_morphmodel())
+        shinyjs::enable(selector = 'a[data-value="> Visualize MLmorph model"]')
     })
 
     observeEvent(input$exclude_simulated, {
@@ -388,8 +441,6 @@ server <- function(input, output) {
         }
         fact_df <- na.omit(fact_df)
         factorized_data <<- fact_df
-        # print(sprintf("Imported data rows: %s, factrized data rows: %s",
-        #               nrow(fact_df), nrow(factorized_data)))
         comb_sizes <- lapply(fact_df, function(col) length(levels(col)))
         total_combinations <- Reduce(`*`, comb_sizes)
         output$configure_preview <- renderUI({
@@ -409,19 +460,33 @@ server <- function(input, output) {
         output$rf_controls <- renderUI({
             last_col <- tail(names(factorized_data), 1)
             other_cols <- setdiff(names(factorized_data), last_col)
-            if (input$model_type == "Random Forest") {
+            model_type <- "Random Forest" # input$model_type
+            if (model_type == "Random Forest") {
                 tagList(
-                    selectizeInput(
-                        "dep_var", "Select dependent variable",
-                        choices = names(factorized_data), selected = last_col),
-                    selectizeInput(
-                        "indep_vars", "Select independent variables",
-                        choices = other_cols, selected = other_cols, multiple = TRUE),
-                    sliderInput("split", "Train/Validation split",
-                                min = 0.5, max = 0.95, value = 0.8, step = 0.01),
-                    sliderInput("ntree", "Number of trees",
-                                min = 10, max = 500, value = 10, step = 10),
-                    actionButton("create_model", "Create Model")
+                    fluidRow(
+                        column(
+                            width = 6,
+                            selectizeInput(
+                                "dep_var", "Select dependent variable",
+                                choices = names(factorized_data), selected = last_col,
+                                width = "100%"),
+                            sliderInput("split", "Train/Validation split",
+                                        min = 0.5, max = 0.95, value = 0.8, step = 0.01,
+                                        width = "100%"),
+                            sliderInput("ntree", "Number of trees",
+                                        min = 10, max = 500, value = 10, step = 10,
+                                        width = "100%"),
+                            actionButton("create_model", "Create Model",
+                                         width = "100%")
+                        ),
+                        column(
+                            width = 6,
+                            selectizeInput(
+                                "indep_vars", "Select independent variables",
+                                choices = other_cols, selected = other_cols, multiple = TRUE,
+                                width = "100%"),
+                        )
+                    )
                 )
             } else {
                 tags$div(
@@ -429,5 +494,6 @@ server <- function(input, output) {
                     tags$strong("Neural Network configuration is not yet implemented."))
             }
         })
+        shinyjs::enable(selector = 'a[data-value="> Create ML model"]')
     })
 }

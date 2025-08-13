@@ -2,7 +2,6 @@
 % Please edit documentation in R/MLmorph-package.R
 \docType{package}
 \name{MLmorph-package}
-\alias{MLmorph}
 \alias{MLmorph-package}
 \title{MLmorph: What the Package Does (Title Case)}
 \description{

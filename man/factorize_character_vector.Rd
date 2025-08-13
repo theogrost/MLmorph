@@ -2,21 +2,21 @@
 % Please edit documentation in R/factorize_data.R
 \name{factorize_character_vector}
 \alias{factorize_character_vector}
-\title{Turn character vector into factor}
+\title{Turn character vector into a factor}
 \usage{
 factorize_character_vector(data_vector, custom_labels = NULL)
 }
 \arguments{
-\item{data_vector}{Vector with character data.}
+\item{data_vector}{Character vector.}
 
-\item{custom_labels}{Custom labels named vector, names=levels, value=labels}
+\item{custom_labels}{Optional named character vector where names are original values and values are labels.}
 }
 \value{
-Factorized vector
+A factor with labeled levels.
 }
 \description{
-Turn character vector into factor
+Turn character vector into a factor
 }
 \examples{
-factorize_character_vector(c("First", "Second", "Third"))
+factorize_character_vector(c("A First", "B Second", "C Third"))
 }

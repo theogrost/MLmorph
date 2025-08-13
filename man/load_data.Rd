@@ -2,26 +2,29 @@
 % Please edit documentation in R/load_data.R
 \name{load_data}
 \alias{load_data}
-\title{Loads data for the use of MLmorph}
+\title{Load tabular data (xlsx, csv, or json)}
 \usage{
 load_data(data_path)
 }
 \arguments{
-\item{data_path}{File path of the data}
+\item{data_path}{Character scalar; path to a `.xlsx`, `.csv`, or `.json` file.}
 }
 \value{
-A data.frame with imported data
+A base \code{data.frame} with the imported data.
 }
 \description{
-Loads data for the use of MLmorph
+Load tabular data (xlsx, csv, or json)
 }
 \examples{
-xlsxFile <- system.file("extdata", "load_data_test.xlsx", package = "openxlsx")
-df1 <- load_data(xlsxFile)
+tmp_csv <- tempfile(fileext = ".csv")
+utils::write.csv(data.frame(a = 1:2, b = c("x", "y")), tmp_csv, row.names = FALSE)
+load_data(tmp_csv)
 
-csvFile <- system.file("extdata", "load_data_test.csv", package = "openxlsx")
-df2 <- load_data(csvFile)
+tmp_json <- tempfile(fileext = ".json")
+jsonlite::write_json(list(a = 1:2, b = c("x","y")), tmp_json, auto_unbox = TRUE)
+load_data(tmp_json)
 
-jsonFile <- system.file("extdata", "load_data_test.json", package = "openxlsx")
-df3 <- load_data(jsonFile)
+tmp_xlsx <- tempfile(fileext = ".xlsx")
+openxlsx::write.xlsx(data.frame(a = 1:2, b = c("x","y")), tmp_xlsx)
+load_data(tmp_xlsx)
 }

@@ -2,20 +2,20 @@
 % Please edit documentation in R/factorize_data.R
 \name{factorize_binary_vector}
 \alias{factorize_binary_vector}
-\title{Turn binary vector into factor}
+\title{Turn binary vector into a factor}
 \usage{
 factorize_binary_vector(data_vector, custom_labels = NULL)
 }
 \arguments{
-\item{data_vector}{Vector with binary data.}
+\item{data_vector}{Logical vector.}
 
-\item{custom_labels}{Custom labels vector: first for TRUE, second for FALSE.}
+\item{custom_labels}{Optional length-2 character vector: first for \code{TRUE}, second for \code{FALSE}.}
 }
 \value{
-Factorized vector
+A factor with two levels in \code{TRUE}, \code{FALSE} order.
 }
 \description{
-Turn binary vector into factor
+Turn binary vector into a factor
 }
 \examples{
 factorize_binary_vector(c(TRUE, FALSE, TRUE))
