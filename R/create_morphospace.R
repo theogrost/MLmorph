@@ -65,9 +65,9 @@ create_morphospace <- function(the_data,
             for (i in seq_len(batches)) {
                 start <- (i - 1) * batch_size + 1
                 end <- min(i * batch_size, n)
-                preds[[i]] <- predict(model,
-                                      morphospace[start:end, ],
-                                      type = "prob")
+                preds[[i]] <- stats::predict(model,
+                                             morphospace[start:end, ],
+                                             type = "prob")
                 shiny::incProgress(1 / batches)
             }
             prediction <- do.call(rbind, preds)
@@ -83,7 +83,7 @@ create_morphospace <- function(the_data,
             morphospace$purely_simulated <- purely_simulated
         })
     } else {
-        prediction <- predict(model, morphospace, type = "prob")
+        prediction <- stats::predict(model, morphospace, type = "prob")
         morphospace <- cbind(morphospace, prediction)
         morphospace <- tidyr::pivot_longer(morphospace,
                                            cols = colnames(prediction),

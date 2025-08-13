@@ -25,7 +25,8 @@ load_data <- function(data_path) {
         stop("File does not exist: ", data_path, call. = FALSE)
     }
 
-    ftype <- tolower(tools::file_ext(data_path))
+    ftype <-  tools::file_ext(data_path) %>%
+        tolower()
     if (ftype == "xlsx") {
         imported_data <- openxlsx::read.xlsx(data_path)
     } else if (ftype == "csv") {

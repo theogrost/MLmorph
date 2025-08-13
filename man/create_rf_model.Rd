@@ -31,9 +31,9 @@ Defaults to all columns except \code{dependent}.}
 \value{
 A named list with components:
 \itemize{
-  \item \code{model}: a \code{randomForest} object.
-  \item \code{variables_importance}: matrix from \code{randomForest::importance()}.
-  \item \code{model_performance_on_test}: a \code{caret::confusionMatrix} object on the validation set.
+\item \code{model}: a \code{randomForest} object.
+\item \code{variables_importance}: matrix from \code{randomForest::importance()}.
+\item \code{model_performance_on_test}: a \code{caret::confusionMatrix} object on the validation set.
 }
 }
 \description{

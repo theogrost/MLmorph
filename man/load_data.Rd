@@ -7,7 +7,7 @@
 load_data(data_path)
 }
 \arguments{
-\item{data_path}{Character scalar; path to a `.xlsx`, `.csv`, or `.json` file.}
+\item{data_path}{Character scalar; path to a \code{.xlsx}, \code{.csv}, or \code{.json} file.}
 }
 \value{
 A base \code{data.frame} with the imported data.

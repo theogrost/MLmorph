@@ -3,8 +3,20 @@
 \docType{package}
 \name{MLmorph-package}
 \alias{MLmorph-package}
-\title{MLmorph: What the Package Does (Title Case)}
+\title{MLmorph: Integrating Morphological Modeling and Machine Learning for Decision Support}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+MLmorph integrates morphological modeling with machine learning to support structured decision-making (e.g., in management and consulting). The package enumerates a morphospace of feasible configurations and uses random forests to estimate class probabilities over that space, bridging deductive model exploration with empirical validation. It includes utilities for factorizing inputs, model training, morphospace construction, and an interactive Shiny app for scenario exploration.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/theogrost/MLmorph}
+  \item Report bugs at \url{https://github.com/theogrost/MLmorph/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Oskar Kosch \email{contact@oskarkosch.com} (\href{https://orcid.org/0000-0003-2697-1393}{ORCID}) [copyright holder]
+
 }
 \keyword{internal}

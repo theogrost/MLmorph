@@ -67,7 +67,8 @@ create_rf_model <- function(
         }
     }
 
-    rf_formula <- as.formula(paste(dependent, "~", paste(independent, collapse = "+")))
+    rf_formula <- stats::as.formula(paste(dependent, "~",
+                                          paste(independent, collapse = "+")))
     train <- sample(seq_len(nrow(data)),
                     floor(nrow(data) * train_validate_split),
                     replace = FALSE)
@@ -90,7 +91,7 @@ create_rf_model <- function(
                     keep.forest = TRUE, importance = TRUE
                 )
                 rf_sub <- do.call(randomForest::combine, rf_list[1:i])
-                pred <- predict(rf_sub, data[test, ], type = "response")
+                pred <- stats::predict(rf_sub, data[test, ], type = "response")
                 oob_error[i] <- mean(as.character(pred) != as.character(data[test, dependent]))
                 shiny::incProgress(1 / ntree, detail = paste("Tree", i, "of", ntree))
             }
@@ -103,7 +104,7 @@ create_rf_model <- function(
         )
     }
     variables_importance <- randomForest::importance(rf_model)
-    test_predictions <- predict(rf_model, data[test, ])
+    test_predictions <- stats::predict(rf_model, data[test, ])
     model_performance_on_test <- caret::confusionMatrix(
         test_predictions, data[test, dependent]
     )

@@ -18,13 +18,13 @@ supports \code{predict(model, newdata, type = "prob")} (e.g., \pkg{randomForest}
 \value{
 A list with components:
 \itemize{
-  \item \code{morphospace}: data frame with all predictor combinations,
-        class label column (named as the dependent), \code{calculated} (probability),
-        and \code{purely_simulated} flag.
-  \item \code{dependent}: character scalar with the outcome name.
-  \item \code{independent}: character vector of predictor names.
-  \item \code{all_vars}: character vector \code{c(independent, dependent)}.
-  \item \code{purely_simulated}: logical vector aligned with \code{morphospace}.
+\item \code{morphospace}: data frame with all predictor combinations,
+class label column (named as the dependent), \code{calculated} (probability),
+and \code{purely_simulated} flag.
+\item \code{dependent}: character scalar with the outcome name.
+\item \code{independent}: character vector of predictor names.
+\item \code{all_vars}: character vector \code{c(independent, dependent)}.
+\item \code{purely_simulated}: logical vector aligned with \code{morphospace}.
 }
 }
 \description{

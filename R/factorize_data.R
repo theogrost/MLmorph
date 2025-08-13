@@ -59,7 +59,7 @@ factorize_numeric_vector <- function(
         breaks <- custom_breaks
     } else {
         if (method == "equal_bins") {
-            breaks <- unique(quantile(
+            breaks <- unique(stats::quantile(
                 data_vector,
                 probs = seq(0, 1, length.out = breaks_no + 1),
                 na.rm = TRUE
@@ -88,8 +88,10 @@ factorize_numeric_vector <- function(
     if (!is.null(custom_labels)) {
         labs <- custom_labels
     } else {
-        labs <- paste0("[", head(breaks, -1), ", ", tail(breaks, -1), ")")
-        labs[length(labs)] <- paste0("[", breaks[length(breaks) - 1], ", ", breaks[length(breaks)], "]")
+        labs <- paste0("[", utils::head(breaks, -1), ", ",
+                       utils::tail(breaks, -1), ")")
+        labs[length(labs)] <- paste0("[", breaks[length(breaks) - 1], ", ",
+                                     breaks[length(breaks)], "]")
         labs <- paste0(get_label_numbers(labs), ". ", labs)
     }
     factorized_data <- cut(
