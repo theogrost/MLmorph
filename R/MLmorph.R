@@ -18,7 +18,7 @@ MLmorph <- function(host = "127.0.0.1",
                     port = NULL,
                     launch.browser = TRUE,
                     maxUploadSize = 200 * 1024^2){
-    MLmorph:::MLmorph_dependencies()
+    MLmorph_dependencies()
     options(shiny.maxRequestSize = maxUploadSize)
     shiny::shinyOptions(maxUploadSize = maxUploadSize)
     shiny::runApp(system.file("MLmorph",
@@ -33,7 +33,7 @@ MLmorph <- function(host = "127.0.0.1",
 #'
 #' @keywords internal
 MLmorph_live <- function() {
-    MLmorph:::MLmorph_dependencies()
+    MLmorph_dependencies()
     options(shiny.maxRequestSize = 200 * 1024^2)
     shiny::shinyOptions(maxUploadSize = 200 * 1024^2)
     shiny::runApp(paste0(getwd(),"/inst/MLmorph"), launch.browser = TRUE, host = "127.0.0.1")
