@@ -6,11 +6,8 @@
 \usage{
 MLmorph_dependencies()
 }
-\value{
-NULL (invisible)
-}
 \description{
 This function references packages and functions used in the MLmorph Shiny app,
-located in \verb{inst/}, to prevent \verb{R CMD check}.
+located in \verb{inst/}.
 }
 \keyword{internal}

@@ -42,10 +42,10 @@ MLmorph_live <- function() {
 #' Iterate through app libraries and functions
 #'
 #' This function references packages and functions used in the MLmorph Shiny app,
-#' located in `inst/`, to prevent `R CMD check`.
+#' located in `inst/`.
 #'
 #' @keywords internal
-#' @return NULL (invisible)
+#' @return NULL
 #' @export
 MLmorph_dependencies <- function() {
     # Shiny
@@ -116,5 +116,5 @@ MLmorph_dependencies <- function() {
     MLmorph::factorize_character_vector
     MLmorph::factorize_identity
 
-    invisible(NULL)
+    return(NULL)
 }
