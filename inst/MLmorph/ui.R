@@ -2,7 +2,6 @@ library(shiny)
 library(shinyjs)
 library(shinyFiles)
 library(bslib)
-library(thematic)
 library(plotly)
 library(reactable)
 

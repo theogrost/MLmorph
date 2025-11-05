@@ -2,7 +2,8 @@
 #'
 #' @param the_data A data.frame used to derive unique values of predictors.
 #' @param model A classification model fitted via a formula interface that
-#'   supports \code{predict(model, newdata, type = "prob")} (e.g., \pkg{randomForest}).
+#'   supports \code{predict(model, newdata, type = "prob")}
+#'   (e.g., from \link{create_rf_model}).
 #' @param shiny Logical; if \code{TRUE}, compute predictions in batches with
 #'   \pkg{shiny} progress. Default \code{FALSE}.
 #'

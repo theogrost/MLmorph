@@ -14,7 +14,7 @@ create_rf_model(
 )
 }
 \arguments{
-\item{data}{A \code{data.frame} containing predictors and the outcome.}
+\item{data}{A \link[base]{data.frame} containing predictors and the outcome.}
 
 \item{dependent}{Character scalar; the name of the outcome (must be a factor for classification).
 Defaults to the last column of \code{data}.}
@@ -24,16 +24,16 @@ Defaults to all columns except \code{dependent}.}
 
 \item{train_validate_split}{Numeric in (0, 1); proportion of rows used for training. Default is \code{0.8}.}
 
-\item{shiny}{Logical; if \code{TRUE}, trains incrementally and reports progress via \pkg{shiny}. Default \code{FALSE}.}
+\item{shiny}{Logical; if \code{TRUE}, trains incrementally and reports progress via \link{MLmorph} app. Default \code{FALSE}.}
 
-\item{...}{Additional arguments passed to \code{randomForest::randomForest()} (e.g., \code{ntree}).}
+\item{...}{Additional arguments passed to \link[randomForest]{randomForest} (e.g., \code{ntree}).}
 }
 \value{
 A named list with components:
 \itemize{
-\item \code{model}: a \code{randomForest} object.
-\item \code{variables_importance}: matrix from \code{randomForest::importance()}.
-\item \code{model_performance_on_test}: a \code{caret::confusionMatrix} object on the validation set.
+\item \code{model}: a \link[randomForest]{randomForest} return object.
+\item \code{variables_importance}: matrix from \link[randomForest]{importance}.
+\item \code{model_performance_on_test}: a \link[caret]{confusionMatrix} return object on the validation set.
 }
 }
 \description{

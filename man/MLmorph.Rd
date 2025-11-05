@@ -2,7 +2,7 @@
 % Please edit documentation in R/MLmorph.R
 \name{MLmorph}
 \alias{MLmorph}
-\title{Launch the MLmorph Shiny app}
+\title{Launch the MLmorph shiny app}
 \usage{
 MLmorph(
   host = "127.0.0.1",
@@ -22,14 +22,13 @@ MLmorph(
 \code{options(shiny.maxRequestSize = ...)}. Default \code{200 * 1024^2}.}
 }
 \value{
-The value returned by \code{shiny::runApp()}.
+The value returned by \link[shiny]{runApp}.
 }
 \description{
-Launch the MLmorph Shiny app
+Launch the MLmorph shiny app
 }
 \examples{
-\dontrun{
-# Launch app from the installed package
+if(interactive()){
 MLmorph()
 }
 }

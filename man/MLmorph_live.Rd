@@ -9,10 +9,4 @@ MLmorph_live()
 \description{
 Launch MLmorph from the source tree (development helper)
 }
-\examples{
-\dontrun{
-# From package root during development
-MLmorph_live()
-}
-}
 \keyword{internal}
